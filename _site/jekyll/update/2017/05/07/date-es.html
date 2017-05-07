@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Conversión de fecha a formato español sin plugins</title>
-  <meta name="description" content="Hola">
+  <meta name="description" content="Introducción">
 
   <link rel="stylesheet" href="/jekyll/assets/main.css">
   <link rel="canonical" href="http://localhost:4000/jekyll/jekyll/update/2017/05/07/date-es.html">
@@ -77,7 +77,59 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>Hola</p>
+    <h2 id="introducción">Introducción</h2>
+
+<p>En Jekyll puedes personalizar todo lo que se te ocurra. Sólo tienes que buscar la forma. El problema es que si usas github pages para alojar tu blog creado con Jekyll, sólo puedes usar ciertos plugins, por motivos de seguridad.</p>
+
+<p>Para presentar las fechas con los nombres de los meses en castellano desarrollé un plugin, pero éste no funcionaba dentro de una github page por la razón que expliqué en el anterior párrafo.</p>
+
+<p>Hace poco se me ocurrió otra forma de realizar ésto mismo, pero usando un fichero dentro de <code class="highlighter-rouge">_includes</code>.</p>
+
+<p>Comencemos.</p>
+
+<h2 id="construcción-del-fichero-date_eshtml">Construcción del fichero date_es.html</h2>
+
+<p>Antes de crear el fichero, os pongo un ejemplo de cómo será el formato de la fecha que generaremos.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;time datetime="2017-01-08" attr1="value1" attr2="value2"&gt;8 de enero del 2017&lt;/time&gt;
+</code></pre>
+</div>
+
+<p>donde:</p>
+
+<ul>
+  <li>la etiqueta <code class="highlighter-rouge">&lt;time&gt;&lt;/time&gt;</code> es una etiqueta de HTML5 utilizada para escribir fechas. Es muy recomendable usarla para optimizar el SEO.</li>
+  <li>el atributo <code class="highlighter-rouge">datetime</code> es para especificar la fecha en el formato <code class="highlighter-rouge">YYYY-MM-DD HH:mm:ss</code>.</li>
+  <li>los demás atributos (<code class="highlighter-rouge">attr1</code> y <code class="highlighter-rouge">attr2</code>) son otros atributos cualesquiera que pueden llevar la etiqueta <code class="highlighter-rouge">&lt;time&gt;&lt;/time&gt;</code>.</li>
+  <li>el contenido de la etiqueta <code class="highlighter-rouge">&lt;time&gt;&lt;/time&gt;</code> (<code class="highlighter-rouge">8 de enero del 2017</code>), es la fecha en el formato tal cual lo queremos mostrar.</li>
+</ul>
+
+<p>Una vez entendido cómo vamos a genrerar la fecha, creamos el fichero <code class="highlighter-rouge">_includes/date_es.html</code> e introducimos el siguiente contenido:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;time
+  datetime=""
+
+  
+&gt;
+
+   de
+
+  
+  
+
+  del
+
+  
+&lt;/time&gt;
+
+</code></pre>
+</div>
+
+<p>En este fichero tenemos dos variables que debemos pasarle al usar</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w"> </span><span class="err">include</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
 
   </div>
 
