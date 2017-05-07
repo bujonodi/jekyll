@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.4.3">Jekyll</generator><link href="http://localhost:4000/jekyll/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/jekyll/" rel="alternate" type="text/html" /><updated>2017-05-07T22:01:11+02:00</updated><id>http://localhost:4000/jekyll/</id><title type="html">Aprendiendo Jekyll</title><subtitle>Espacio colaborativo para ir dejando constancia del progreso de aprendizaje con Jekyll.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.4.3">Jekyll</generator><link href="http://localhost:4000/jekyll/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/jekyll/" rel="alternate" type="text/html" /><updated>2017-05-08T01:03:45+02:00</updated><id>http://localhost:4000/jekyll/</id><title type="html">Aprendiendo Jekyll</title><subtitle>Espacio colaborativo para ir dejando constancia del progreso de aprendizaje con Jekyll.
 </subtitle><entry><title type="html">Conversión de fecha a formato español sin plugins</title><link href="http://localhost:4000/jekyll/jekyll/update/2017/05/07/date-es.html" rel="alternate" type="text/html" title="Conversión de fecha a formato español sin plugins" /><published>2017-05-07T18:09:00+02:00</published><updated>2017-05-07T18:09:00+02:00</updated><id>http://localhost:4000/jekyll/jekyll/update/2017/05/07/date-es</id><content type="html" xml:base="http://localhost:4000/jekyll/jekyll/update/2017/05/07/date-es.html">&lt;h2 id=&quot;introducción&quot;&gt;Introducción&lt;/h2&gt;
 
 &lt;p&gt;En Jekyll puedes personalizar todo lo que se te ocurra. Sólo tienes que buscar la forma. El problema es que si usas github pages para alojar tu blog creado con Jekyll, sólo puedes usar ciertos plugins, por motivos de seguridad.&lt;/p&gt;
@@ -29,28 +29,78 @@
 &lt;p&gt;Una vez entendido cómo vamos a genrerar la fecha, creamos el fichero &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes/date_es.html&lt;/code&gt; e introducimos el siguiente contenido:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;time
-  datetime=&quot;&quot;
+  datetime=&quot;{{ include.date }}&quot;
 
-  
+  {% if include.time-attributes %}
+    {{ include.time-attributes}}
+  {% endif %}
 &amp;gt;
 
-   de
+  {{  include.date | date: '%-d' }} de
 
-  
-  
+  {% assign m = include.date | date: '%-m' %}
+  {% case m %}
+    {% when '1' %}enero
+    {% when '2' %}febrero
+    {% when '3' %}marzo
+    {% when '4' %}abril
+    {% when '5' %}mayo
+    {% when '6' %}junio
+    {% when '7' %}julio
+    {% when '8' %}agosto
+    {% when '9' %}septiembre
+    {% when '10' %}octubre
+    {% when '11' %}noviembre
+    {% when '12' %}diciembre
+  {% endcase %}
 
   del
 
-  
+  {{  include.date | date: '%Y' }}
 &amp;lt;/time&amp;gt;
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;En este fichero tenemos dos variables que debemos pasarle al usar&lt;/p&gt;
+&lt;p&gt;En este fichero tenemos dos variables que debemos pasarle al usar &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;include.date&lt;/code&gt;, que es la fecha que queremos formatear. Se debe pasar en el formato &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MMMM-DD HH:mm:ss&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;include.time-attributes&lt;/code&gt;, que son una serie de atributos extra que llevará la etiqueta &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;time&amp;gt;&amp;lt;/time&amp;gt;&lt;/code&gt; (opcional).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;uso-del-fichero-date_eshtml&quot;&gt;Uso del fichero date_es.html&lt;/h2&gt;
+
+&lt;p&gt;Para usar este fichero para formatear una fecha, simplemente hay que escribir:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date_es.html&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date=fecha&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;time-attributes='attr1=&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;value1&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;attr2=&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;value2&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;...'&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Introducción</summary></entry><entry><title type="html">Bienvenidos</title><link href="http://localhost:4000/jekyll/jekyll/update/2017/04/29/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Bienvenidos" /><published>2017-04-29T21:15:39+02:00</published><updated>2017-04-29T21:15:39+02:00</updated><id>http://localhost:4000/jekyll/jekyll/update/2017/04/29/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/jekyll/update/2017/04/29/welcome-to-jekyll.html">&lt;p&gt;Iniciamos este artículo de bienvenida para inaugurar el espacio.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Pongo varios ejemplos:&lt;/p&gt;
+
+&lt;p&gt;Si la fecha es &lt;code class=&quot;highlighter-rouge&quot;&gt;2017-04-11&lt;/code&gt;, y queremos introducir el atributo &lt;code class=&quot;highlighter-rouge&quot;&gt;class=&quot;fecha&quot;&lt;/code&gt;, habría que escribir:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date_es.html&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date='2017-04-11'&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;time-attributes='class=&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;fecha&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Fácil, ¿verdad? Pues vamos con un par de ejemplos más:&lt;/p&gt;
+
+&lt;p&gt;Si la fecha viene determinada por la variable &lt;code class=&quot;highlighter-rouge&quot;&gt;page.date&lt;/code&gt; y no queremos introducir atributos extra a la etiqueta &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;time&amp;gt;&amp;lt;/time&amp;gt;&lt;/code&gt;, tendrías que escribir:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date_es.html&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date=page.date&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Cabe resaltar que si a una variable del &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt; queremos pasarle un texto, se hace escribiendo &lt;code class=&quot;highlighter-rouge&quot;&gt;var='texto'&lt;/code&gt; (usando comillas). Pero si le queremos pasar una variable, como &lt;code class=&quot;highlighter-rouge&quot;&gt;page.date&lt;/code&gt;, se hace escribiendo &lt;code class=&quot;highlighter-rouge&quot;&gt;var=page.date&lt;/code&gt; (sin comillas).&lt;/p&gt;
+
+&lt;p&gt;Y si la fecha viene determinada por la variable &lt;code class=&quot;highlighter-rouge&quot;&gt;post.date&lt;/code&gt; y queremos introducir los atributos &lt;code class=&quot;highlighter-rouge&quot;&gt;id=&quot;fecha-post&quot;&lt;/code&gt; y &lt;code class=&quot;highlighter-rouge&quot;&gt;class=&quot;fecha&quot;&lt;/code&gt;, escribiríamos lo siguiente:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date_es.html&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date=post.date&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;time-attributes='id=&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;fecha-post&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;fecha&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;%}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Bueno, y eso es todo, espero que os sea útil ;)&lt;/p&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Bienvenidos</title><link href="http://localhost:4000/jekyll/jekyll/update/2017/04/29/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Bienvenidos" /><published>2017-04-29T21:15:39+02:00</published><updated>2017-04-29T21:15:39+02:00</updated><id>http://localhost:4000/jekyll/jekyll/update/2017/04/29/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/jekyll/update/2017/04/29/welcome-to-jekyll.html">&lt;p&gt;Iniciamos este artículo de bienvenida para inaugurar el espacio.&lt;/p&gt;
 
 &lt;p&gt;Revisa la documentación &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt;, también puedes passarte por &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">Iniciamos este artículo de bienvenida para inaugurar el espacio.</summary></entry></feed>
